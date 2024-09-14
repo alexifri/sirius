@@ -41,15 +41,20 @@ function ResponsiveAppBar() {
                     {/* Navigation Buttons for Desktop (Always visible) */}
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}>
                         {pages.map((page) => (
-                            <Link key={page} href={page === 'Home' ? '/' : '/about-us'} passHref>
-                                <Button
+                            <Link style={{ textDecoration: 'none' }} key={page} href={page === 'Home' ? '/' : '/about-us'} passHref>
+                                <Button variant="outlined"
                                     sx={{
                                         my: 2,
-                                        color: 'green',
+                                        color: '#FFFFFF',
                                         display: 'block',
                                         textSizeAdjust: 'auto',
                                         fontWeight: 'bold',
-                                        mx: 2,
+                                        mx: 1,
+                                        borderColor: '@00FF00',
+                                        '&:hover': {
+                                            borderColor: '#00FF00',
+                                            backgroundColor: 'transparent',
+                                        },
                                     }}
                                 >
                                     {page}
