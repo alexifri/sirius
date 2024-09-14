@@ -4,6 +4,7 @@ import fs from 'fs';
 import {getToken} from './config/token.js';
 import fetch from 'node-fetch';
 import path from 'path';
+import { indexSelection } from './config/index-selection.js';
 
 const app = express();
 const PORT = 5001;
@@ -27,6 +28,9 @@ app.get('/api/process', logRequest, async (req, res) => {
     // Get token from CLIENT_ID and CLIENT_SECRET
     const token = await getToken();
 
+    const indexSelected = req.query.index;
+    const evalscript = indexSelection(indexSelected);
+    console.log(evalscript);
     // Request body to match the provided structure
     const data = {
         input: {
@@ -115,17 +119,17 @@ app.get('/api/process', logRequest, async (req, res) => {
                 }
             ]
         },
-        evalscript: "//VERSION=3\nlet minVal = 0.0;\nlet maxVal = 0.25;\n\nlet viz = ColorRampVisualizer.createWhiteGreen(minVal, maxVal);\n\nfunction evaluatePixel(samples) {\n    let val = samples.B03 * index(samples.B08, samples.B04);\n    val = viz.process(val);\n    val.push(samples.dataMask);\n    return val;\n}\n\nfunction setup() {\n  return {\n    input: [{\n      bands: [\n        \"B03\",\n        \"B04\",\n        \"B08\",\n        \"dataMask\"\n      ]\n    }],\n    output: {\n      bands: 4\n    }\n  }\n}"
+        evalscript: evalscript 
     };
-    //console.log(JSON.stringify(data));
+    //"//VERSION=3\nlet minVal = 0.0;\nlet maxVal = 0.25;\n\nlet viz = ColorRampVisualizer.createWhiteGreen(minVal, maxVal);\n\nfunction evaluatePixel(samples) {\n    let val = samples.B03 * index(samples.B08, samples.B04);\n    val = viz.process(val);\n    val.push(samples.dataMask);\n    return val;\n}\n\nfunction setup() {\n  return {\n    input: [{\n      bands: [\n        \"B03\",\n        \"B04\",\n        \"B08\",\n        \"dataMask\"\n      ]\n    }],\n    output: {\n      bands: 4\n    }\n  }\n}"
     
-    const customHeaders = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
 
     try{
         const url = 'https://sh.dataspace.copernicus.eu/api/v1/process';
+        const customHeaders = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
         await fetch(url, {
             method: 'POST',
             headers: customHeaders,
@@ -133,11 +137,21 @@ app.get('/api/process', logRequest, async (req, res) => {
         })
         .then(response => response.arrayBuffer())
         .then(buffer => {
-            fs.writeFileSync('./resources/output.jpeg', Buffer.from(buffer));
+            if(indexSelected === 'NDVI')
+                fs.writeFileSync('./resources/ndvi.tiff', Buffer.from(buffer));
+            else if(indexSelected === 'NDWI')
+                fs.writeFileSync('./resources/ndwi.tiff', Buffer.from(buffer));
+            else
+                fs.writeFileSync('./resources/noindexselected.tiff', Buffer.from(buffer));
         })
         .then(() => {
             console.log('File written successfully');
-            res.status(200).sendFile(path.resolve('./resources/output.jpeg'));
+            if(indexSelected === 'NDVI')
+                res.status(200).sendFile(path.resolve('./resources/ndvi.tiff'));
+            else if(indexSelected === 'NDWI')
+                res.status(200).sendFile(path.resolve('./resources/ndwi.tiff'));
+            else
+                res.status(200).sendFile(path.resolve('./resources/noindexselected.tiff'));
         });
     } catch (error) {
         console.log(error);
