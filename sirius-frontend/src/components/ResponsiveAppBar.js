@@ -13,7 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';  // Import Next.js Link for routing
 
 // Pages and settings arrays
-const pages = ['Home', 'About Us'];
+const pages = ['Home', 'About'];
 const settings = ['Logout'];
 
 function ResponsiveAppBar() {
@@ -29,7 +29,7 @@ function ResponsiveAppBar() {
 
     return (
         <AppBar position="static" sx={{ backgroundColor: 'black' }}>
-            <Box maxWidth="xl">
+            <Box>
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Sirius Farms Logo */}
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 20 }}>
@@ -64,7 +64,7 @@ function ResponsiveAppBar() {
                     </Box>
 
                     {/* User Profile/Avatar */}
-                    <Box sx={{ flexGrow: 0, mr: 22 }}>
+                    <Box sx={{ flexGrow: 0, ml: 2, mr: 22 }}>
                         <Tooltip title="Open settings">
                             <Avatar alt="User Avatar" src="/avatar_logo.jpg" onClick={handleOpenUserMenu} sx={{ cursor: 'pointer' }} />
                         </Tooltip>

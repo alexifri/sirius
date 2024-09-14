@@ -26,8 +26,8 @@ export default function ChaptersWithImages() {
                         justifyContent: 'center', // Center the image list itself
                         width: '80%',              // Adjust the width of the image list to fit within the page
                         maxWidth: '100%',
+                        flexWrap: 'wrap'
                     }}
-                    cols={3}
                     gap={48}
                 >
                     {itemData.map((item) => (
@@ -89,7 +89,7 @@ const itemData = [
     {
         img: '/farmer-image.jpeg',  // Image path from public directory
         title: 'For Farmers:',
-        description: `- Check crop health\n- Avoid overwatering \n- Avoid overusing chemicals\n- Predict yield estimation.`,
+        description: `- Check crop health\n- Avoid overwatering \n- Avoid overusing chemicals\n- Predict crop yield.`,
     },
     {
         img: '/public-entities-and-ngos.jpeg',  // Image path from public directory
