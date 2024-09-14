@@ -1,95 +1,91 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import { Container, Box, Typography, Button, Grid } from '@mui/material';
+import Image from 'next/image';
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+export default function LandingPage() {
+    return (
+        <Box
+            sx={{
+                bgcolor: 'background.default',
+                color: 'text.primary',
+                minHeight: '100vh',
+                py: 4,
+            }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+            <Container maxWidth="lg">
+                <Grid container spacing={4} alignItems="center">
+                    <Grid item xs={12}>
+                        <Typography variant="h2" component="h1" gutterBottom align="center">
+                            Sustainable Farming Powered by Technology
+                        </Typography>
+                        <Typography variant="body1" align="center" paragraph>
+                            At Sirius Farms, we use cutting-edge satellite and data technology to revolutionize
+                            sustainable farming practices.
+                        </Typography>
+
+                        {/* Center the button */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                mt: 3,  // Optional spacing
+                            }}
+                        >
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                sx={{
+                                    fontSize: '1.0rem',
+                                    padding: '16px 30px',
+                                    width: '200px',
+                                    height: '60px',
+                                }}
+                            >
+                                Find out how
+                            </Button>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12} container justifyContent="center">
+                        {/* Center the Typography */}
+                        <Box
+                            sx={{
+                                backgroundColor: '#FFFFFF',
+                                height: 'auto',               // Set height to auto to adjust based on content
+                                display: 'flex',
+                                justifyContent: 'center',      // Center horizontally
+                                alignItems: 'center',          // Center vertically
+                                width: '100%',                 // Full width
+                                mt: 4,                         // Margin-top to avoid overlap with the previous component
+                                mb: 4,                         // Margin-bottom to avoid overlap with the next component
+                                position: 'relative',          // Make the box's position relative for better control of elements inside
+                                overflow: 'hidden'             // Ensures that content stays within the box if it scales
+                            }}
+                        >
+                            <Image
+                                src="/satelite-image.webp"          // Use your image path here
+                                alt="Satellite Image or Visualization"
+                                layout="responsive"            // Makes the image responsive to the container
+                                width={1600}                   // Set custom width based on the design
+                                height={800}                   // Set custom height
+                                objectFit="cover"              // Ensures the image covers the entire box without distortion
+                            />
+                        </Box>
+                    </Grid>
+                </Grid>
+
+                <Box mt={8}>
+                    <Typography variant="h4" align="center" gutterBottom>
+                        Our Solution
+                    </Typography>
+                    <Typography variant="body1" align="center" paragraph>
+                        Sirius Farms synthesizes data from multiple sources to streamline and optimize farming processes.
+                        We provide detailed analytics and actionable insights to enhance your crop yields.
+                    </Typography>
+                </Box>
+            </Container>
+        </Box>
+    );
 }
