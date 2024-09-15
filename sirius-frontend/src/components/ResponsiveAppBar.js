@@ -81,7 +81,12 @@ function ResponsiveAppBar() {
                             />
                         </Tooltip>
                         <Menu
-                            sx={{ mt: '45px' }}
+                            sx={{
+                                mt: '45px',
+                                '& .MuiPaper-root': {
+                                    backgroundColor: '#000000', // Set menu background color to black
+                                },
+                            }}
                             anchorEl={anchorElUser}
                             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             keepMounted
@@ -95,12 +100,28 @@ function ResponsiveAppBar() {
                                     component={Link}
                                     href="/login-page"
                                     passHref
+                                    sx={{
+                                        color: '#00FF00',  // Set text color to green
+                                        '&:hover': {
+                                            backgroundColor: '#222222',  // Dark background on hover
+                                        },
+                                    }}
                                 >
                                     Sign In
                                 </MenuItem>
                             )}
                             {session && (
-                                <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    sx={{
+                                        color: '#00FF00',  // Set text color to green
+                                        '&:hover': {
+                                            backgroundColor: '#222222',  // Dark background on hover
+                                        },
+                                    }}
+                                >
+                                    Logout
+                                </MenuItem>
                             )}
                         </Menu>
                     </Box>
