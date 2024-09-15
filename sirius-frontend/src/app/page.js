@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ChaptersWithImages from "@/components/ChaptersWithImages";
 
+
 export default function LandingPage() {
 
     return (
@@ -28,10 +29,10 @@ export default function LandingPage() {
                             paragraph
                             sx={{ fontSize: 25 }}  // Customize font size via sx prop
                         >
-                            Sirius Farms uses cutting-edge satellite and data technology to bring farming into the space era.
+                            Sirius Farms uses state-of-the-art satellite technology to bring farming into the space era.
                         </Typography>
 
-                        {/* Center the button and link to /api-page */}
+                        {/* Center the button and link to /monitor */}
                         <Box
                             sx={{
                                 display: 'flex',
@@ -39,7 +40,7 @@ export default function LandingPage() {
                                 mt: 3,  // Optional spacing
                             }}
                         >
-                            <Link href="/api-page" passHref>
+                            <Link href="/monitor" passHref>
                                 <Button
                                     variant="outlined"
                                     color="primary"
