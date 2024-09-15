@@ -1,4 +1,4 @@
-'use client';  // Make this a client-side component
+'use client';
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -10,13 +10,16 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Image from 'next/image';
-import Link from 'next/link';  // Import Next.js Link for routing
+import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';  // Import useSession and signOut from NextAuth
 
 // Pages and settings arrays
 const pages = ['Home', 'About'];
-const settings = ['Logout'];
+const settings = ['SignIn', 'Logout'];
+
 
 function ResponsiveAppBar() {
+    const { data: session } = useSession();  // Get the current session
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
@@ -41,8 +44,14 @@ function ResponsiveAppBar() {
                     {/* Navigation Buttons for Desktop (Always visible) */}
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}>
                         {pages.map((page) => (
-                            <Link style={{ textDecoration: 'none' }} key={page} href={page === 'Home' ? '/' : '/about-us'} passHref>
-                                <Button variant="outlined"
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                key={page}
+                                href={page === 'Home' ? '/' : '/about-us'}
+                                passHref
+                            >
+                                <Button
+                                    variant="outlined"
                                     sx={{
                                         my: 2,
                                         color: '#FFFFFF',
@@ -66,7 +75,12 @@ function ResponsiveAppBar() {
                     {/* User Profile/Avatar */}
                     <Box sx={{ flexGrow: 0, ml: 2, mr: 22 }}>
                         <Tooltip title="Open settings">
-                            <Avatar alt="User Avatar" src="/avatar_logo.jpg" onClick={handleOpenUserMenu} sx={{ cursor: 'pointer' }} />
+                            <Avatar
+                                alt="User Avatar"
+                                src={session ? session.user.image : '/avatar_logo.jpg'}  // Display GitHub avatar if signed in
+                                onClick={handleOpenUserMenu}
+                                sx={{ cursor: 'pointer' }}
+                            />
                         </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
@@ -77,11 +91,19 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    {setting}
+                            {!session && (
+                                <MenuItem
+                                    onClick={handleCloseUserMenu}
+                                    component={Link}
+                                    href="/login-page"
+                                    passHref
+                                >
+                                    Sign In
                                 </MenuItem>
-                            ))}
+                            )}
+                            {session && (
+                                <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                            )}
                         </Menu>
                     </Box>
                 </Toolbar>
