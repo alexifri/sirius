@@ -5,9 +5,18 @@ import {getToken} from './config/token.js';
 import fetch from 'node-fetch';
 import path from 'path';
 import { indexSelection } from './config/index-selection.js';
+import cors from 'cors';
 
 const app = express();
 const PORT = 5001;
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
