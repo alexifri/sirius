@@ -200,7 +200,7 @@ app.get('/api/v2/process', logRequest, async (req, res) => {
                 {
                     identifier: 'default',
                     format: {
-                        type: 'image/jpeg'
+                        type: 'image/png'
                     }
                 }
             ]
@@ -225,6 +225,8 @@ app.get('/api/v2/process', logRequest, async (req, res) => {
                 fs.writeFileSync('./resources/ndvi.tiff', Buffer.from(buffer));
             else if(indexSelected === 'NDWI')
                 fs.writeFileSync('./resources/ndwi.tiff', Buffer.from(buffer));
+            else if(indexSelected === 'NDWIFLOODING')
+                fs.writeFileSync('./resources/ndwiflooding.tiff', Buffer.from(buffer));
             else
                 fs.writeFileSync('./resources/noindexselected.tiff', Buffer.from(buffer));
         })
@@ -234,6 +236,8 @@ app.get('/api/v2/process', logRequest, async (req, res) => {
                 res.status(200).sendFile(path.resolve('./resources/ndvi.tiff'));
             else if(indexSelected === 'NDWI')
                 res.status(200).sendFile(path.resolve('./resources/ndwi.tiff'));
+            else if(indexSelected === 'NDWIFLOODING')
+                res.status(200).sendFile(path.resolve('./resources/ndwiflooding.tiff'));
             else
                 res.status(200).sendFile(path.resolve('./resources/noindexselected.tiff'));
         });

@@ -19,6 +19,7 @@
     * Values for `index` param
         * `NDVI`
         * `NDWI`
+        * `NDWIFLOODING`
         * anything else that will be considered `default`
 
 ## 2nd endpoint (array of coordinates as query param)
@@ -26,6 +27,7 @@
     * Values for `index` param
         * `NDVI`
         * `NDWI`
+        * `NDWIFLOODING`
         * anything else that will be considered `default`
     * Values for `array` param
         * It is an array of arrays
