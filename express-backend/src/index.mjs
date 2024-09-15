@@ -123,7 +123,7 @@ app.get('/api/process', logRequest, async (req, res) => {
                 {
                     identifier: 'default',
                     format: {
-                        type: 'image/tiff'
+                        type: 'image/png'
                     }
                 }
             ]
@@ -231,24 +231,24 @@ app.get('/api/v2/process', logRequest, async (req, res) => {
         .then(response => response.arrayBuffer())
         .then(buffer => {
             if(indexSelected === 'NDVI')
-                fs.writeFileSync('./resources/ndvi.tiff', Buffer.from(buffer));
+                fs.writeFileSync('./resources/ndvi.png', Buffer.from(buffer));
             else if(indexSelected === 'NDWI')
-                fs.writeFileSync('./resources/ndwi.tiff', Buffer.from(buffer));
+                fs.writeFileSync('./resources/ndwi.png', Buffer.from(buffer));
             else if(indexSelected === 'NDWIFLOODING')
-                fs.writeFileSync('./resources/ndwiflooding.tiff', Buffer.from(buffer));
+                fs.writeFileSync('./resources/ndwiflooding.png', Buffer.from(buffer));
             else
-                fs.writeFileSync('./resources/noindexselected.tiff', Buffer.from(buffer));
+                fs.writeFileSync('./resources/noindexselected.png', Buffer.from(buffer));
         })
         .then(() => {
             console.log('File written successfully');
             if(indexSelected === 'NDVI')
-                res.status(200).sendFile(path.resolve('./resources/ndvi.tiff'));
+                res.status(200).sendFile(path.resolve('./resources/ndvi.png'));
             else if(indexSelected === 'NDWI')
-                res.status(200).sendFile(path.resolve('./resources/ndwi.tiff'));
+                res.status(200).sendFile(path.resolve('./resources/ndwi.png'));
             else if(indexSelected === 'NDWIFLOODING')
-                res.status(200).sendFile(path.resolve('./resources/ndwiflooding.tiff'));
+                res.status(200).sendFile(path.resolve('./resources/ndwiflooding.png'));
             else
-                res.status(200).sendFile(path.resolve('./resources/noindexselected.tiff'));
+                res.status(200).sendFile(path.resolve('./resources/noindexselected.png'));
         });
     } catch (error) {
         console.log(error);

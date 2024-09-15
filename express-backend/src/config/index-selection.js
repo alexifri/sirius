@@ -84,7 +84,7 @@ export const indexSelection = (index) => {
                     return [0, 0, 1, samples.dataMask]; // Blue color with data mask
                 } else if (ndwi >= 0.0 && ndwi <= 0.2) {
                     // Flooding area, color it GREEN
-                    return [0, 1, 0, samples.dataMask]; // Green color with data mask
+                    return [1, 0, 0, samples.dataMask]; // Green color with data mask
                 } else {
                     // Make non-water, non-flooding areas transparent
                     return [0, 0, 0, 0];

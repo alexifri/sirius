@@ -1,20 +1,25 @@
 import dynamic from 'next/dynamic';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, ImageOverlay } from 'react-leaflet';
 import { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { Button } from '@mui/material';
 
 import DrawControl from './DrawControl';
 
+import { saveAs } from 'file-saver';  // FileSaver.js for saving files client-side
+
 
 function MapComponent({ selectedType }) {
     const [polygon, setPolygon] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
+    const [imageBounds, setImageBounds] = useState(null);
   
     const handlePolygonCreated = (geoJsonData) => {
       // Store the polygon data in state
       setPolygon(geoJsonData);
     };
-  
+
+
     const handleSubmit = () => {
       if (!polygon) return;
   
@@ -22,7 +27,7 @@ function MapComponent({ selectedType }) {
       const coordinates = polygon.geometry.coordinates[0]; // Assuming single polygon
   
       // Flatten coordinates if necessary
-      const coordinateArray = coordinates.map((coord) => [coord[0], coord[1]]);
+      const coordinateArray = coordinates.map((coord) => [coord[1], coord[0]]);
   
       // Build the query parameters
       const params = new URLSearchParams();
@@ -34,11 +39,16 @@ function MapComponent({ selectedType }) {
   
       // Send GET request
       fetch(url)
-        .then((response) => response.json())
+        .then(response => response.blob())
         .then((data) => {
+
+            console.log('Received data:', data);
+            const objectURL = URL.createObjectURL(data);
+            const latlngs = coordinateArray.map((coord) => L.latLng(coord[0], coord[1]));
+            const bounds = L.latLngBounds(latlngs);
+            setImageURL(objectURL);
+            setImageBounds(bounds);
           // Handle the response from the backend
-          console.log('Received data:', data);
-          // You might want to display this data on the map
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -57,8 +67,11 @@ function MapComponent({ selectedType }) {
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
           <DrawControl onPolygonCreated={handlePolygonCreated} />
+            {imageURL  && (
+                <ImageOverlay url={imageURL} bounds={imageBounds} opacity={1}  // Rotate the image back to correct orientation
+                />
+            )}
         </MapContainer>
-  
         <Button
           variant="contained"
           color="primary"

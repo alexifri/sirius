@@ -54,6 +54,11 @@ function SatelliteTypeSelector({ onTypeChange }) {
             color: "white", // Makes the selected text white
             ".MuiSvgIcon-root": { color: "white" }, // Makes the dropdown icon white
           }} value="NDWI">NDWI</MenuItem>
+            <MenuItem sx={{
+            backgroundColor: 'black',
+            color: "white", // Makes the selected text white
+            ".MuiSvgIcon-root": { color: "white" }, // Makes the dropdown icon white
+          }} value="NDWIFLOODING">NDWI for flooding</MenuItem>
         </Select>
       </FormControl>
     );
