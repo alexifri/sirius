@@ -108,13 +108,13 @@ app.get('/api/process', logRequest, async (req, res) => {
             ]
         },
         output: {
-            width: 642.058,
-            height: 666.118,
+            width: 1000.058,
+            height: 1000.118,
             responses: [
                 {
                     identifier: 'default',
                     format: {
-                        type: 'image/jpeg'
+                        type: 'image/tiff'
                     }
                 }
             ]

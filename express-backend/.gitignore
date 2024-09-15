@@ -57,3 +57,7 @@ nodemon-debug.log*
 # OS generated files
 Thumbs.db
 *.swp
+
+# IDE
+.idea
+.code

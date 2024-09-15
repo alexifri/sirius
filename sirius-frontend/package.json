@@ -13,9 +13,13 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.0",
     "@mui/material": "^6.1.0",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
     "next": "14.2.11",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-leaflet": "^4.2.1",
+    "react-leaflet-draw": "^0.20.4"
   },
   "devDependencies": {
     "eslint": "^8",
