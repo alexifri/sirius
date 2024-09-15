@@ -5,9 +5,18 @@ import {getToken} from './config/token.js';
 import fetch from 'node-fetch';
 import path from 'path';
 import { indexSelection } from './config/index-selection.js';
+import cors from 'cors';
 
 const app = express();
 const PORT = 5001;
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
@@ -159,6 +168,93 @@ app.get('/api/process', logRequest, async (req, res) => {
     }
 });
 
+app.get('/api/v2/process', logRequest, async (req, res) => {
+    // Get token from CLIENT_ID and CLIENT_SECRET
+    const token = await getToken();
+
+    const indexSelected = req.query.index;
+    // I want to extract an array of array that will consist of the coordinates from the query of the request
+    const coordsString = req.query.array;
+    const coordsArray = JSON.parse(coordsString);
+    const evalscript = indexSelection(indexSelected);
+
+    // Request body to match the provided structure
+    const data = {
+        input: {
+            bounds: {
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [
+                        coordsArray
+                    ]
+                }
+            },
+            data: [
+                {
+                    dataFilter: {
+                        timeRange: {
+                            from: "2024-08-14T00:00:00Z",
+                            to: "2024-09-14T23:59:59Z"
+                        },
+                        maxCloudCoverage: 20
+                    },
+                    type: 'sentinel-2-l2a'
+                }
+            ]
+        },
+        output: {
+            width: 642.058,
+            height: 666.118,
+            responses: [
+                {
+                    identifier: 'default',
+                    format: {
+                        type: 'image/png'
+                    }
+                }
+            ]
+        },
+        evalscript: evalscript 
+    };
+
+    try{
+        const url = 'https://sh.dataspace.copernicus.eu/api/v1/process';
+        const customHeaders = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+        await fetch(url, {
+            method: 'POST',
+            headers: customHeaders,
+            body: JSON.stringify(data)
+        })
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+            if(indexSelected === 'NDVI')
+                fs.writeFileSync('./resources/ndvi.tiff', Buffer.from(buffer));
+            else if(indexSelected === 'NDWI')
+                fs.writeFileSync('./resources/ndwi.tiff', Buffer.from(buffer));
+            else if(indexSelected === 'NDWIFLOODING')
+                fs.writeFileSync('./resources/ndwiflooding.tiff', Buffer.from(buffer));
+            else
+                fs.writeFileSync('./resources/noindexselected.tiff', Buffer.from(buffer));
+        })
+        .then(() => {
+            console.log('File written successfully');
+            if(indexSelected === 'NDVI')
+                res.status(200).sendFile(path.resolve('./resources/ndvi.tiff'));
+            else if(indexSelected === 'NDWI')
+                res.status(200).sendFile(path.resolve('./resources/ndwi.tiff'));
+            else if(indexSelected === 'NDWIFLOODING')
+                res.status(200).sendFile(path.resolve('./resources/ndwiflooding.tiff'));
+            else
+                res.status(200).sendFile(path.resolve('./resources/noindexselected.tiff'));
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({ error: 'API call failed', details: error.message });
+    }
+});
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

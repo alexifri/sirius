@@ -74,7 +74,38 @@ export const indexSelection = (index) => {
             }
             `;
             break;
-
+            case 'NDWIFLOODING':
+                evalscript = `//VERSION=3
+            
+            function evaluatePixel(samples) {
+                let ndwi = index(samples.B03, samples.B08);
+                if (ndwi > 0.2) {
+                    // Water area, color it BLUE
+                    return [0, 0, 1, samples.dataMask]; // Blue color with data mask
+                } else if (ndwi >= 0.0 && ndwi <= 0.2) {
+                    // Flooding area, color it GREEN
+                    return [0, 1, 0, samples.dataMask]; // Green color with data mask
+                } else {
+                    // Make non-water, non-flooding areas transparent
+                    return [0, 0, 0, 0];
+                }
+            }
+            
+            function setup() {
+              return {
+                input: [{
+                  bands: [
+                    "B03",
+                    "B08",
+                    "dataMask"
+                  ]
+                }],
+                output: {
+                  bands: 4 // RGBA output
+                }
+              };
+            }`;
+                break;
         default:
             evalscript = `
             // VERSION=3
