@@ -5,6 +5,7 @@ import ResponsiveAppBar from '../components/ResponsiveAppBar';  // Import the Ap
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './styles/theme';  // Import the custom theme
+import 'leaflet/dist/leaflet.css';
 
 export default function RootLayout({ children }) {
     return (

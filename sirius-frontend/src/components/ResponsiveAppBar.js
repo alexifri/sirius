@@ -13,8 +13,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';  // Import useSession and signOut from NextAuth
 
-const pages = ['Home', 'About Us'];
+// Pages and settings arrays
+const pages = ['Home', 'About'];
 const settings = ['SignIn', 'Logout'];
+
 
 function ResponsiveAppBar() {
     const { data: session } = useSession();  // Get the current session
@@ -30,7 +32,7 @@ function ResponsiveAppBar() {
 
     return (
         <AppBar position="static" sx={{ backgroundColor: 'black' }}>
-            <Box maxWidth="xl">
+            <Box>
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Sirius Farms Logo */}
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 20 }}>
@@ -71,7 +73,7 @@ function ResponsiveAppBar() {
                     </Box>
 
                     {/* User Profile/Avatar */}
-                    <Box sx={{ flexGrow: 0, mr: 22 }}>
+                    <Box sx={{ flexGrow: 0, ml: 2, mr: 22 }}>
                         <Tooltip title="Open settings">
                             <Avatar
                                 alt="User Avatar"
