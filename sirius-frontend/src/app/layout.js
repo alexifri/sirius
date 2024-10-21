@@ -1,10 +1,10 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';  // Import the SessionProvider from NextAuth
-import ResponsiveAppBar from '../components/ResponsiveAppBar';  // Import the AppBar component
+import { SessionProvider } from 'next-auth/react';
+import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from './styles/theme';  // Import the custom theme
+import theme from './styles/theme';
 import 'leaflet/dist/leaflet.css';
 
 export default function RootLayout({ children }) {

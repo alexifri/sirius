@@ -27,12 +27,13 @@ export default function LandingPage() {
                             variant="body1"
                             align="center"
                             paragraph
-                            sx={{ fontSize: 25 }}  // Customize font size via sx prop
+                            sx={{ fontSize: 25 }}
                         >
                             Sirius Farms uses state-of-the-art satellite technology to bring farming into the space era.
                         </Typography>
 
                         {/* Center the button and link to /monitor */}
+                        {/*
                         <Box
                             sx={{
                                 display: 'flex',
@@ -60,6 +61,36 @@ export default function LandingPage() {
                                     }}
                                 >
                                     Find out how
+                                </Button>
+                            </Link>
+                        </Box>
+                        */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                mt: 3,  // Optional spacing
+                            }}
+                        >
+                            <Link href="/subscription-page" passHref>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    size="large"
+                                    sx={{
+                                        fontSize: '1.15rem',
+                                        width: '220px',
+                                        height: '70px',
+                                        color: '#FFFFFF',
+                                        borderColor: '@00FF00',
+                                        borderWidth: '5px',
+                                        '&:hover': {
+                                            borderColor: '#00FF00',
+                                            backgroundColor: 'transparent',
+                                        },
+                                    }}
+                                >
+                                    Subscribe to our newsletter!
                                 </Button>
                             </Link>
                         </Box>
